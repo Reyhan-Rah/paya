@@ -14,20 +14,20 @@ const CustomTextInput: React.FC<InputProps> = ({ placeholder, value, onChangeTex
             placeholder={placeholder}
             value={value}
             onChangeText={onChangeText}
-            placeholderTextColor="#c4c4c4"
+            placeholderTextColor="#979797"
         />
     );
 };
 
 const styles = StyleSheet.create({
     input: {
-        height: 50,
+        height: 56,
         borderWidth: 1,
         borderColor: '#e5e5e5',
         borderRadius: 10,
         paddingHorizontal: 15,
-        fontSize: 16,
-        backgroundColor: '#f7f7f7',
+        fontSize: 14,
+        backgroundColor: 'rgba(151, 151, 151, 0.2)',
         marginVertical: 10,
         textAlign: 'right',
     },

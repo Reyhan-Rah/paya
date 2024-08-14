@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
         borderColor: '#E15A55',
     },
     checkedIndicator: {
-        width: 12,
-        height: 12,
+        width: 10,
+        height: 10,
         backgroundColor: '#E15A55',
         borderRadius: 2,
     },
