@@ -12,10 +12,15 @@ import {
     SafeAreaView,
     Platform,
 } from 'react-native';
+import SubmitButton from "@/components/SubmitButton";
+import CustomRadioButton from "@/components/CustomRadioButton";
+import Checkbox from "@/components/Checkbox";
+import CustomTextInput from "@/components/CustomTextInput";
 import Banner from '../assets/images/banner/Rectangle 1392.png';
 import BackIcon from '../assets/images/back/Combined Shape.png';
 import Logo from '../assets/images/logo/Icon-App-1024-removebg-preview 1.png';
-import SubmitButton from "@/components/SubmitButton";
+import CloseIcon from '../assets/images/close/x.png';
+import DownIcon from '../assets/images/stroke/Stroke 1.png';
 
 // Enforce RTL layout
 I18nManager.forceRTL(true);
@@ -27,21 +32,14 @@ const { width, height } = Dimensions.get('window');
 const App: React.FC = () => {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [checked, setChecked] = useState<RadioButtonOption>('first');
+    const [checkboxes, setCheckboxes] = useState({
+        contact: true,
+        message: false,
+        chat: false,
+    });
 
-    const CustomRadioButton: React.FC<{
-        label: string;
-        value: RadioButtonOption;
-        selectedValue: RadioButtonOption;
-        onPress: (value: RadioButtonOption) => void;
-    }> = ({ label, value, selectedValue, onPress }) => {
-        return (
-            <TouchableOpacity style={styles.radioButtonContainer} onPress={() => onPress(value)}>
-                <View style={styles.radioButton}>
-                    {selectedValue === value && <View style={styles.radioButtonInner} />}
-                </View>
-                <Text style={styles.radioText}>{label}</Text>
-            </TouchableOpacity>
-        );
+    const toggleCheckbox = (key: 'contact' | 'message' | 'chat') => {
+        setCheckboxes({ ...checkboxes, [key]: !checkboxes[key] });
     };
 
     return (
@@ -61,13 +59,47 @@ const App: React.FC = () => {
                 <Image
                     source={Banner}
                     style={styles.topImage}
-                    resizeMode="cover"
+                    resizeMode="contain"
                 />
 
                 {/* Dropdown Trigger */}
+                <Text style={styles.label}>دسته بندی</Text>
                 <TouchableOpacity style={styles.dropdown} onPress={() => setModalVisible(true)}>
                     <Text style={styles.dropdownText}>انتخاب کنید</Text>
+                    <Image
+                        source={DownIcon}
+                        style={styles.stroke}
+                        resizeMode="contain"
+                    />
                 </TouchableOpacity>
+
+                {/* Checkbox*/}
+                <View style={styles.checkboxGroup}>
+                    <Text style={styles.checkboxGroupLabel}>نوع ارتباط</Text>
+                    <Checkbox
+                        label="تماس"
+                        checked={checkboxes.contact}
+                        onChange={() => toggleCheckbox('contact')}
+                    />
+                    <Checkbox
+                        label="پیام"
+                        checked={checkboxes.message}
+                        onChange={() => toggleCheckbox('message')}
+                    />
+                    <Checkbox
+                        label="چت"
+                        checked={checkboxes.chat}
+                        onChange={() => toggleCheckbox('chat')}
+                    />
+                </View>
+
+                {/* Text Inputs*/}
+                <CustomTextInput placeholder="نام شرکت" value="" onChangeText={() => {}} />
+                <CustomTextInput placeholder="ارائه کننده آگهی" value="" onChangeText={() => {}} />
+                <CustomTextInput placeholder="شناسه ملی شرکت" value="" onChangeText={() => {}} />
+
+                {/* Submit Button */}
+                <SubmitButton title="ثبت" onPress={() => {}} />
 
                 {/* Modal */}
                 <Modal
@@ -81,7 +113,9 @@ const App: React.FC = () => {
                         <View style={styles.logoContainer}>
                         <Image source={Logo} style={styles.logo} />
                         </View>
+                        <View style={styles.titleContainer}>
                         <Text style={styles.title}>دسته بندی</Text>
+                        </View>
                         <View style={styles.radioContainer}>
                             <CustomRadioButton
                                 label="موسسه داوری"
@@ -96,7 +130,7 @@ const App: React.FC = () => {
                                 onPress={setChecked}
                             />
                         </View>
-                        <SubmitButton title="تایید و ادامه" onPress={() => setModalVisible(false} />
+                        <SubmitButton title="تایید و ادامه" onPress={() => setModalVisible(false)} />
                     </View>
                     </View>
                 </Modal>
@@ -112,7 +146,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        alignItems: 'center',
+        // alignItems: 'center',
         backgroundColor: '#F5F5F5',
         paddingHorizontal:width * 0.09,
     },
@@ -121,8 +155,7 @@ const styles = StyleSheet.create({
         width: '100%',
         // paddingTop: Platform.OS === 'android' ? height * 0.03 : 0, // Adjust for status bar in Android
         backgroundColor: 'transparent',
-
-        paddingVertical:height * 0.02,
+        paddingVertical:height * 0.01,
         justifyContent: 'space-between',
         alignItems:'center',
     },
@@ -137,23 +170,47 @@ const styles = StyleSheet.create({
     },
     topImage: {
         width: width*0.95,
-        height: height * 0.2, // Adjust this value as per your design
-        marginBottom: height * 0.02,
+        marginTop: height * 0.01,
         borderRadius:25,
+        alignSelf:'center',
+    },
+    label:{
+        fontSize: 16,
+        color: '#424242',
+        fontWeight: '500',
+        textAlign:"right",
+        marginTop: height * 0.01,
     },
     dropdown: {
-        width: '80%',
-        padding: width * 0.03,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        borderRadius: 5,
+        flexDirection:'row-reverse',
+        width: '100%',
+        paddingVertical:10,
+        paddingRight:18,
+        paddingLeft:28,
+        borderRadius: 20,
         alignItems: 'center',
+        justifyContent:'space-between',
         backgroundColor: '#fff',
-        marginTop: height * 0.02,
+        marginTop: height * 0.01,
+        marginBottom: height * 0.03,
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 10,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 15,
+        elevation: 5,
     },
     dropdownText: {
-        fontSize: width * 0.04,
-        color: '#333',
+        fontSize: 14,
+        fontWeight: '500',
+        lineHeight:25.5,
+        color: '#424242',
+        textAlign:'right',
+    },
+    stroke: {
+        width: width*0.04,
     },
     centeredView: {
         flex: 1,
@@ -194,37 +251,40 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '500',
         color:'#424242',
-      paddingHorizontal:height * 0.02,
+        paddingHorizontal:height * 0.02,
     },
     radioContainer: {
         flexDirection: 'column',
         justifyContent: 'flex-start',
         marginBottom: height * 0.02,
     },
-    radioButtonContainer: {
-        flexDirection: 'row',
+    titleContainer:{
+        backgroundColor: '#fff',
         alignItems: 'center',
-        marginBottom: height * 0.01,
-        backgroundColor:'red'
+        paddingVertical:15,
+        marginTop:17,
+        marginBottom:23,
+        borderRadius:10,
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 10,
+        },
+        shadowOpacity: 0.08,
+        shadowRadius: 15,
+        elevation: 5,
     },
-    radioButton: {
-        height: 20,
-        width: 20,
-        borderRadius: 10,
-        borderWidth: 2,
-        borderColor: '#1E90FF',
+    checkboxGroup: {
+        flexDirection: 'row-reverse',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginRight: width * 0.03,
+        justifyContent: 'flex-start',
+        marginBottom: 20,
     },
-    radioButtonInner: {
-        height: 10,
-        width: 10,
-        borderRadius: 5,
-        backgroundColor: '#1E90FF',
-    },
-    radioText: {
-        fontSize: width * 0.04,
+    checkboxGroupLabel: {
+        fontSize: 14,
+        fontWeight: '500',
+        color:'#424242',
+        paddingLeft:10,
     },
 });
 
