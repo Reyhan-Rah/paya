@@ -15,6 +15,7 @@ import {
 import Banner from '../assets/images/banner/Rectangle 1392.png';
 import BackIcon from '../assets/images/back/Combined Shape.png';
 import Logo from '../assets/images/logo/Icon-App-1024-removebg-preview 1.png';
+import SubmitButton from "@/components/SubmitButton";
 
 // Enforce RTL layout
 I18nManager.forceRTL(true);
@@ -95,7 +96,7 @@ const App: React.FC = () => {
                                 onPress={setChecked}
                             />
                         </View>
-                        <Button title="تایید و ادامه" onPress={() => setModalVisible(false)} color="#1E90FF"  />
+                        <SubmitButton title="تایید و ادامه" onPress={() => setModalVisible(false} />
                     </View>
                     </View>
                 </Modal>
