@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 type RadioButtonOption = 'first' | 'second';
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const SimpleRadioButton: React.FC<{
   label: string;
